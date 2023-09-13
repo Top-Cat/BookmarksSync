@@ -72,8 +72,8 @@ fun Application.bookmarksync() {
     }
 
     install(Sessions) {
-        val secretEncryptKey = hex("f6e7b1c1586ea12a75fe3c588b09e4d2")
-        val secretSignKey = hex("8b20030ea51ad2e322d197a29ef1")
+        val secretEncryptKey = hex(System.getenv("SESSION_ENCRYPT") ?: "f6e7b1c1586ea12a75fe3c588b09e4d2")
+        val secretSignKey = hex(System.getenv("SESSION_SIGN") ?: "8b20030ea51ad2e322d197a29ef1")
 
         cookie<UserSession>("bssync-session") {
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretSignKey))
