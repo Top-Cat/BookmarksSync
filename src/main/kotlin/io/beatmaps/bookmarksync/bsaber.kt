@@ -44,19 +44,19 @@ data class BsaberBookmark(
     val curatedAt: String? = null
 )
 
-suspend fun getBookmarks(username: String, page: Int) =
-    client.get("https://bsaber.com/wp-json/bsaber-api/songs/?bookmarked_by=${username}&page=${page}").body<BsaberBookmarksPage>()
+suspend fun getBookmarks(username: String, page: Int, count: Int) =
+    client.get("https://bsaber.com/wp-json/bsaber-api/songs/?bookmarked_by=${username}&page=${page}&count=${count}").body<BsaberBookmarksPage>()
 
 suspend fun getAllBookmarks(username: String, cb: (Int) -> Unit = {}) = getAllBookmarksInt(username, cb = cb)
-private tailrec suspend fun getAllBookmarksInt(username: String, page: Int = 0, prev: List<BsaberBookmark> = listOf(), cb: (Int) -> Unit = {}): List<BsaberBookmark> {
+private tailrec suspend fun getAllBookmarksInt(username: String, page: Int = 0, count: Int = 50, prev: List<BsaberBookmark> = listOf(), cb: (Int) -> Unit = {}): List<BsaberBookmark> {
     cb(page)
 
-    val pageObj = getBookmarks(username, page)
+    val pageObj = getBookmarks(username, page, count)
     val newList = prev.plus(pageObj.songs)
 
     if (pageObj.nextPage == null) {
         return newList
     }
 
-    return getAllBookmarksInt(username, pageObj.nextPage, newList, cb)
+    return getAllBookmarksInt(username, pageObj.nextPage, count, newList, cb)
 }
