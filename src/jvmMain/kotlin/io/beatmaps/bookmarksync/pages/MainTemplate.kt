@@ -25,8 +25,7 @@ class MainTemplate(private val body: Template<BODY>) : Template<HTML> {
         head {
             insert(headElements)
             title { +pageTitle }
-            styleLink("/main.css")
-            styleLink("/bootstrap.min.css")
+            styleLink("/static/main.css")
             styleLink("https://use.fontawesome.com/releases/v5.15.4/css/all.css")
             meta("theme-color", "#375a7f")
             meta("viewport", "width=device-width, min-width=575")
@@ -34,8 +33,8 @@ class MainTemplate(private val body: Template<BODY>) : Template<HTML> {
         }
         body {
             insert(body, bodyPlaceholder)
-            script(src = "/main.js") {}
-            script(src = "https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js") {}
+            script(src = "/static/modules.js") {}
+            script(src = "/static/output.js") {}
         }
     }
 }
