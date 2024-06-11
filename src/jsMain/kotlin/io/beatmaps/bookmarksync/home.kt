@@ -10,6 +10,7 @@ import react.dom.div
 import react.dom.input
 import react.fc
 import react.useEffect
+import react.useRef
 import react.useState
 
 data class IndexEntry(val name: String, val songs: Int) {
@@ -26,6 +27,7 @@ val homePage = fc<Props> {
     val (results, setResults) = useState(listOf<IndexEntry>())
     val (index, setIndex) = useState(listOf<IndexEntry>())
     val (idx, setIdx) = useState(0)
+    val loadingRef = useRef(false)
     val maxResults = 20
 
     useEffect(search, index) {
@@ -37,10 +39,12 @@ val homePage = fc<Props> {
     }
 
     useEffect(results) {
-        if (results.size < maxResults && idx < 5) {
+        if (results.size < maxResults && idx < 5 && loadingRef.current == false) {
+            loadingRef.current = true
             setIdx(idx + 1)
             axiosGet<Map<String, Int>>("/static/index/index$idx.json").then {
                 setIndex(index + it.map { (n, s) -> IndexEntry(n, s) })
+                loadingRef.current = false
             }
         }
     }
