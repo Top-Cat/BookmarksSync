@@ -6,7 +6,6 @@ import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.EntityTagVersion
-import io.ktor.http.content.LastModifiedVersion
 import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -14,7 +13,6 @@ import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.html.respondHtmlTemplate
 import io.ktor.server.http.content.CompressedFileType
-import io.ktor.server.http.content.LocalFileContent
 import io.ktor.server.http.content.StaticContentConfig
 import io.ktor.server.http.content.staticFiles
 import io.ktor.server.http.content.staticResources
@@ -25,7 +23,6 @@ import io.ktor.server.request.path
 import io.ktor.server.resources.Resources
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import io.ktor.util.date.GMTDate
 import java.io.File
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -55,16 +52,10 @@ fun Application.bookmarksync() {
     }
 
     install(ConditionalHeaders) {
-        /*modify { _, call ->
-            call.response.headers.append(HttpHeaders.ETag, Etag.docker)
-        }*/
-        version { call, outgoingContent ->
+        version { call, _ ->
             val path = call.request.path()
             when {
                 path.startsWith("/static") -> listOf(EntityTagVersion(Etag.docker))
-                path.startsWith("/playlist") && outgoingContent is LocalFileContent -> {
-                    listOf(LastModifiedVersion(GMTDate(outgoingContent.file.lastModified())))
-                }
                 else -> emptyList()
             }
         }

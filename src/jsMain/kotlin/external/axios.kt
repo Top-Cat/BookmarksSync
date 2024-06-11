@@ -177,4 +177,4 @@ inline fun <reified T> transformRequest(data: T, headers: dynamic) =
         }
     }
 
-inline fun <reified T> axiosGet(url: String) = Axios.get<String>(url, generateConfig<String, String>()).then { json.decodeFromString<T>(it.data) }
+inline fun <reified T> axiosGet(url: String, ct: CancelToken? = null) = Axios.get<String>(url, generateConfig<String, String>(ct)).then { json.decodeFromString<T>(it.data) }
