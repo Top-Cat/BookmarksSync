@@ -71,6 +71,7 @@ kotlin {
 
             dependencies {
                 implementation("io.ktor:ktor-server-resources:$ktorVersion")
+                implementation("io.ktor:ktor-server-conditional-headers:$ktorVersion")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
@@ -105,6 +106,7 @@ kotlin {
                 implementation(npm("bootswatch", "5.3.3"))
                 implementation(npm("bootstrap", "5.3.3"))
                 implementation(devNpm("webpack-bundle-analyzer", "4.6.1"))
+                implementation(devNpm("compression-webpack-plugin", "11.1.0"))
             }
         }
         val jsTest by getting {
@@ -124,6 +126,7 @@ application {
 }
 
 ktlint {
+    version.set("0.50.0")
     reporters {
         reporter(ReporterType.CHECKSTYLE)
     }

@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-slim
+FROM openjdk:21-jdk-slim
 EXPOSE 3031
 
 WORKDIR /app

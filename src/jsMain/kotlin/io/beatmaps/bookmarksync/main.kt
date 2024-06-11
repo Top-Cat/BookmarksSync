@@ -7,7 +7,6 @@ import react.Props
 import react.createElement
 import react.dom.client.createRoot
 import react.dom.div
-import react.dom.nav
 import react.fc
 import react.router.Outlet
 import react.router.dom.RouterProvider

@@ -14,10 +14,11 @@ import react.useState
 
 data class IndexEntry(val name: String, val songs: Int) {
     val downloadUrl by lazy {
-        "/playlist/${name[0]}/${name}.bplist"
+        "/playlist/${name[0]}/$name.bplist"
     }
 
-    fun matches(search: String) = name.contains(search, true)
+    fun matches(search: String) = name.contains(search, true) &&
+        !name.equals(search, true) // Exact results are processed separately
 }
 
 val homePage = fc<Props> {
